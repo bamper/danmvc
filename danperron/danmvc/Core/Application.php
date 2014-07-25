@@ -205,25 +205,22 @@ class Application {
      */
     private function doRouting() {
         $httpMethod = $_SERVER['REQUEST_METHOD'];
-        $uri = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+
         $queryString = '?' . $_SERVER['QUERY_STRING'];
-        $matchURI = str_replace($queryString, '', $uri);
-        $matchURI = preg_replace('/^https?:\/\//', '', str_replace($this->config->baseURI, '', $uri));
-        //$matchURI = preg_replace('/\/$/', '', $matchURI);
-        $this->path = $matchURI;
-
-
+        $matchPath = str_replace($queryString, '', $_SERVER['REQUEST_URI']);
+        $matchPath = str_replace($this->config->basePath, '', $matchPath);
+        $this->path = $matchPath;
 
         foreach ($this->routes as $route) {
             /** @var Route $route * */
-            if ($route->match($matchURI, $httpMethod)) {
-                $args = $this->getNamedRouteParams($route, $matchURI);
+            if ($route->match($matchPath, $httpMethod)) {
+                $args = $this->getNamedRouteParams($route, $matchPath);
                 $this->executeRoute($route, $args);
                 return;
             }
         }
 
-        throw new MvcException("No Route found for path '$matchURI'", MvcException::ERROR_CODE_NO_ROUTE);
+        throw new MvcException("No Route found for path '$matchPath'", MvcException::ERROR_CODE_NO_ROUTE);
     }
 
     /**
@@ -312,7 +309,7 @@ class Application {
      * @return type
      */
     public function getBaseUri() {
-        return $this->config->baseURI;
+        return 'http://' . $_SERVER['SERVER_NAME'] . $this->config->basePath;
     }
 
     /**
@@ -340,7 +337,7 @@ class Application {
     public static function registerAutoloader() {
         spl_autoload_register(function($className) {
             $dir = dirname(__DIR__);
-            if (preg_match('/^danmvc2/', $className)) {
+            if (preg_match('/^danperron\\\\danmvc/', $className)) {
                 $className = str_replace('danperron\danmvc\\', '', $className);
                 $className = str_replace('\\', '/', $className);
                 $fileName = $dir . DIRECTORY_SEPARATOR . $className . '.php';
@@ -404,6 +401,7 @@ class Application {
         $configDefaults['timezone'] = "America/New_York";
         $configDefaults['debug'] = false;
         $configDefaults['baseURI'] = '';
+        $configDefaults['basePath'] = '/';
         $configDefaults['controllerDir'] = '';
         $configDefaults['modelDir'] = '';
         $configDefaults['libDir'] = '';
