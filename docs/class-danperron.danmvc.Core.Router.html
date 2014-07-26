@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="generator" content="ApiGen 2.8.0" />
 
-	<title>Class danperron\danmvc\Core\View | danmvc</title>
+	<title>Class danperron\danmvc\Core\Router | danmvc</title>
 
 	<script type="text/javascript" src="resources/combined.js?2395520916"></script>
 	<script type="text/javascript" src="elementlist.js?133515370"></script>
@@ -51,9 +51,9 @@
 				<li><a href="class-danperron.danmvc.Core.Filter.html">Filter</a></li>
 				<li><a href="class-danperron.danmvc.Core.Input.html">Input</a></li>
 				<li><a href="class-danperron.danmvc.Core.Route.html">Route</a></li>
-				<li><a href="class-danperron.danmvc.Core.Router.html">Router</a></li>
+				<li class="active"><a href="class-danperron.danmvc.Core.Router.html">Router</a></li>
 				<li><a href="class-danperron.danmvc.Core.Session.html">Session</a></li>
-				<li class="active"><a href="class-danperron.danmvc.Core.View.html">View</a></li>
+				<li><a href="class-danperron.danmvc.Core.View.html">View</a></li>
 			</ul>
 
 
@@ -100,12 +100,12 @@
 	</div>
 
 <div id="content" class="class">
-	<h1>Class View</h1>
+	<h1>Class Router</h1>
 
 
 	<div class="description">
 	
-<p>Description of View</p>
+<p>Description of Router</p>
 
 	</div>
 
@@ -125,7 +125,7 @@
 
 				<b>Author:</b>
 				dan<br />
-		<b>Located at</b> <a href="source-class-danperron.danmvc.Core.View.html#5-78" title="Go to source code">danperron/danmvc/Core/View.php</a><br />
+		<b>Located at</b> <a href="source-class-danperron.danmvc.Core.Router.html#8-140" title="Go to source code">danperron/danmvc/Core/Router.php</a><br />
 	</div>
 
 
@@ -143,7 +143,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-danperron.danmvc.Core.View.html#22-28" title="Go to source code">__construct</a>( <span><code><a href="class-danperron.danmvc.Core.Application.html">danperron\danmvc\Core\Application</a></code> <var>$app</var></span> )</code>
+		<code><a href="source-class-danperron.danmvc.Core.Router.html#27-29" title="Go to source code">__construct</a>( <span><code><a href="class-danperron.danmvc.Core.Application.html">danperron\danmvc\Core\Application</a></code> <var>$application</var></span> )</code>
 
 		<div class="description short">
 			
@@ -161,7 +161,7 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="render" id="_render">
+	<tr data-order="addRoute" id="_addRoute">
 
 		<td class="attributes"><code>
 			 public 
@@ -171,8 +171,8 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_render">#</a>
-		<code><a href="source-class-danperron.danmvc.Core.View.html#30-42" title="Go to source code">render</a>( <span>mixed <var>$viewName</var></span> )</code>
+		<a class="anchor" href="#_addRoute">#</a>
+		<code><a href="source-class-danperron.danmvc.Core.Router.html#31-33" title="Go to source code">addRoute</a>( <span><code><a href="class-danperron.danmvc.Core.Route.html">danperron\danmvc\Core\Route</a></code> <var>$route</var></span> )</code>
 
 		<div class="description short">
 			
@@ -190,7 +190,7 @@
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="fetch" id="_fetch">
+	<tr data-order="doRouting" id="_doRouting">
 
 		<td class="attributes"><code>
 			 public 
@@ -200,77 +200,27 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_fetch">#</a>
-		<code><a href="source-class-danperron.danmvc.Core.View.html#54-66" title="Go to source code">fetch</a>( <span>mixed <var>$viewName</var></span> )</code>
+		<a class="anchor" href="#_doRouting">#</a>
+		<code><a href="source-class-danperron.danmvc.Core.Router.html#35-58" title="Go to source code">doRouting</a>( )</code>
 
 		<div class="description short">
 			
+<p>Try to find the route that best matches the current path and execute it.</p>
+
 		</div>
 
 		<div class="description detailed hidden">
 			
+<p>Try to find the route that best matches the current path and execute it.</p>
 
 
 
 
 
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="assign" id="_assign">
-
-		<td class="attributes"><code>
-			 public 
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_assign">#</a>
-		<code><a href="source-class-danperron.danmvc.Core.View.html#68-70" title="Go to source code">assign</a>( <span>mixed <var>$key</var></span>, <span>mixed <var>$value</var></span> )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="assignArray" id="_assignArray">
-
-		<td class="attributes"><code>
-			 public 
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_assignArray">#</a>
-		<code><a href="source-class-danperron.danmvc.Core.View.html#72-76" title="Go to source code">assignArray</a>( <span>mixed <var>$array</var></span> )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
-
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-danperron.danmvc.Core.MvcException.html">danperron\danmvc\Core\MvcException</a></code></code><br />
+				</div>
 
 
 

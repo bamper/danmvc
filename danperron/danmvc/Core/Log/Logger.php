@@ -41,11 +41,18 @@ class Logger {
     private static $isInitialized = false;
 
     /**
+     *
+     * @var type 
+     */
+    private $logDirectory = '';
+    
+    /**
      * 
      * @param Application $app
      */
     private function __construct(Application $app) {
         $this->application = $app;
+        $this->logDirectory = $app->getConfig()->logDir;
     }
 
     /**
@@ -94,6 +101,11 @@ class Logger {
      * @param string $message
      */
     public function log($message, $level = self::LEVEL_INFO) {
+        
+        if(!is_writable($this->logDirectory)){
+            throw new MvcException("Log directory is not writable.");
+        }
+        
         
         if($this->logLevel < $level){
             return;

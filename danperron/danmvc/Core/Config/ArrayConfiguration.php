@@ -21,7 +21,7 @@ class ArrayConfiguration implements IConfiguration {
     }
 
     public function getAttributes() {
-        return $this->attributes;
+        return (object) $this->attributes;
     }
 
 }

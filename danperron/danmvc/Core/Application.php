@@ -63,18 +63,22 @@ class Application {
     private $path = '';
 
     /**
+     *
+     * @var Router
+     */
+    private $router = null;
+    
+    /**
      * 
      * @param type $config
      */
     function __construct(IConfiguration $config) {
         $this->session = Session::getInstance();
-        
         $this->config = Application::configDefaults();
+        $this->router = new Router($this);
 
-        foreach ($config->getAttributes() as $key => $value) {
-            $this->config->$key = $value;
-        }
-
+        $this->addConfig($config);
+        
     }
 
     /**
@@ -84,8 +88,7 @@ class Application {
         try {
             ob_start();
             $this->init();
-            //echo $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-            $this->doRouting();
+            $this->router->doRouting();
             $this->finish();
             ob_end_flush();
         } catch (MvcException $e) {
@@ -113,6 +116,14 @@ class Application {
         foreach($config->getAttributes() as $key => $value){
             $this->config->$key = $value;
         }
+        
+        if(!empty($this->config->properties)){
+            foreach($this->config->properties as $key => $value){
+                $this->setProperty($key, $value);
+            }
+            unset($this->config->properties);
+        }
+        
     }
     
     /**
@@ -198,110 +209,8 @@ class Application {
         return $this->path;
     }
 
-    /**
-     * Try to find the route that best matches the current path and execute it.
-     * 
-     * @throws MvcException
-     */
-    private function doRouting() {
-        $httpMethod = $_SERVER['REQUEST_METHOD'];
-
-        $queryString = '?' . $_SERVER['QUERY_STRING'];
-        $matchPath = str_replace($queryString, '', $_SERVER['REQUEST_URI']);
-        $matchPath = str_replace($this->config->basePath, '', $matchPath);
-        $this->path = $matchPath;
-
-        foreach ($this->routes as $route) {
-            /** @var Route $route * */
-            if ($route->match($matchPath, $httpMethod)) {
-                $args = $this->getNamedRouteParams($route, $matchPath);
-                $this->executeRoute($route, $args);
-                return;
-            }
-        }
-
-        throw new MvcException("No Route found for path '$matchPath'", MvcException::ERROR_CODE_NO_ROUTE);
-    }
-
-    /**
-     * 
-     * Pull the named parameters and their values out of the current path using
-     * the matching Route.
-     * 
-     * @param Route $route
-     * @param type $matchURI
-     * @return type
-     * @throws Exception
-     */
-    private function getNamedRouteParams(Route $route, $matchURI) {
-        $uriSplit = explode('/', $matchURI);
-        $patternSplit = explode('/', $route->getPattern());
-
-        if (count($uriSplit) != count($patternSplit)) {
-            throw new MvcException("uri segments do not match pattern segments");
-        }
-        $args = array();
-        for ($i = 0; $i < count($patternSplit); $i++) {
-            if (preg_match('/^:/', $patternSplit[$i])) {
-                $key = str_replace(':', '', $patternSplit[$i]);
-                $args[$key] = $uriSplit[$i];
-            }
-        }
-        return $args;
-    }
-
-    /**
-     * 
-     * execute a route.
-     * 
-     * @param Route $route
-     * @param type $namedArguments
-     * @throws MvcException
-     * @throws MvcException
-     */
-    private function executeRoute(Route $route, $namedArguments) {
-        $controllerName = $route->getControllerName();
-        $controllerMethod = $route->getMethodName();
-
-        $fileName = $this->config->controllerDir . DIRECTORY_SEPARATOR . $controllerName . '.php';
-
-        if (!file_exists($fileName)) {
-            throw new MvcException("Controller file does not exist: $fileName");
-        }
-
-        require_once $fileName;
-
-        if (!class_exists($controllerName)) {
-            throw new MvcException("Class not found: $controllerName");
-        }
-
-        $controller = new $controllerName($this);
-
-        if (!($controller instanceof Controller)) {
-            throw new MvcException("$controllerName is not of type Controller");
-        }
-
-        if (!method_exists($controller, $controllerMethod)) {
-            throw new MvcException("method $controllerMethod does not exist in $controllerName");
-        }
 
 
-        try {
-            $reflection = new ReflectionClass($controllerName);
-            $reflectionMethod = $reflection->getMethod($controllerMethod);
-            $arguments = array();
-            //match named uri parameters to method arugument names
-            foreach ($reflectionMethod->getParameters() as $key => $param) {
-                /* @var \ReflectionParameter $param */
-                $arguments[$key] = $namedArguments[$param->getName()];
-            }
-            call_user_method_array($controllerMethod, $controller, $arguments);
-        } catch (MvcException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            throw new MvcException("Uncaught exception calling $controllerName::$controllerMethod", 0, $e);
-        }
-    }
 
     /**
      * Return the base URI for the existing web application.
@@ -328,7 +237,7 @@ class Application {
      * @param Route $route
      */
     public function addRoute(Route $route) {
-        $this->routes[] = $route;
+        $this->router->addRoute($route);
     }
 
     /**
@@ -391,9 +300,10 @@ class Application {
 
                 $newRoute = new Route($route['pattern'], $controller, $method, $route['methods']);
 
-                $this->routes[] = $newRoute;
+                $this->router->addRoute($newRoute);
             }
         }
+        unset($this->config->routes);
     }
 
     private static function configDefaults() {

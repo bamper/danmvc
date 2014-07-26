@@ -3,16 +3,15 @@
 namespace danperron\danmvc\Core;
 
 /**
- * Handle form input
+ * Handle input from request
  *
  * @author dan
  */
 class Input {
 
     private static $instance = null;
-
     private $rawPostData = null;
-    
+
     private function __construct() {
         
     }
@@ -25,27 +24,17 @@ class Input {
     }
 
     public function getPostField($key) {
-        if (isset($_POST[$key])) {
-            return $_POST[$key];
-        } else {
-            return null;
-        }
+        return filter_input(INPUT_POST, $key, FILTER_NULL_ON_FAILURE);
     }
 
     public function getQueryParam($key) {
-        if (isset($_GET[$key])) {
-            return $_GET[$key];
-        } else {
-            return null;
-        }
+        return filter_input(INPUT_GET, $key, FILTER_NULL_ON_FAILURE);
     }
-    
-    public function getRawInputData(){
-        if($this->rawPostData === null){
+
+    public function getRawInputData() {
+        if ($this->rawPostData === null) {
             $this->rawPostData = file_get_contents('php://input');
         }
         return $this->rawPostData;
     }
-    
-
 }

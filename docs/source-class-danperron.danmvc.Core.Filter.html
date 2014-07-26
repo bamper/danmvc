@@ -5,7 +5,7 @@
 	<meta name="generator" content="ApiGen 2.8.0" />
 	<meta name="robots" content="noindex" />
 
-	<title>File danperron/danmvc/Core/MvcException.php | danmvc</title>
+	<title>File danperron/danmvc/Core/Filter.php | danmvc</title>
 
 	<script type="text/javascript" src="resources/combined.js?2395520916"></script>
 	<script type="text/javascript" src="elementlist.js?133515370"></script>
@@ -49,7 +49,7 @@
 			<ul>
 				<li><a href="class-danperron.danmvc.Core.Application.html">Application</a></li>
 				<li><a href="class-danperron.danmvc.Core.Controller.html">Controller</a></li>
-				<li><a href="class-danperron.danmvc.Core.Filter.html">Filter</a></li>
+				<li class="active"><a href="class-danperron.danmvc.Core.Filter.html">Filter</a></li>
 				<li><a href="class-danperron.danmvc.Core.Input.html">Input</a></li>
 				<li><a href="class-danperron.danmvc.Core.Route.html">Route</a></li>
 				<li><a href="class-danperron.danmvc.Core.Router.html">Router</a></li>
@@ -61,7 +61,7 @@
 
 			<h3>Exceptions</h3>
 			<ul>
-				<li class="active"><a href="class-danperron.danmvc.Core.MvcException.html">MvcException</a></li>
+				<li><a href="class-danperron.danmvc.Core.MvcException.html">MvcException</a></li>
 			</ul>
 
 
@@ -89,7 +89,7 @@
 				<a href="namespace-danperron.danmvc.Core.html" title="Summary of danperron\danmvc\Core"><span>Namespace</span></a>
 			</li>
 			<li>
-				<a href="class-danperron.danmvc.Core.MvcException.html" title="Summary of danperron\danmvc\Core\MvcException"><span>Class</span></a>
+				<a href="class-danperron.danmvc.Core.Filter.html" title="Summary of danperron\danmvc\Core\Filter"><span>Class</span></a>
 			</li>
 		</ul>
 		<ul>
@@ -105,25 +105,28 @@
 </span><span id="2" class="l"><a class="l" href="#2"> 2: </a>
 </span><span id="3" class="l"><a class="l" href="#3"> 3: </a><span class="php-keyword1">namespace</span> danperron\danmvc\Core;
 </span><span id="4" class="l"><a class="l" href="#4"> 4: </a>
-</span><span id="5" class="l"><a class="l" href="#5"> 5: </a><span class="php-keyword1">use</span> Exception;
-</span><span id="6" class="l"><a class="l" href="#6"> 6: </a>
-</span><span id="7" class="l"><a class="l" href="#7"> 7: </a><span class="php-comment">/**
-</span></span><span id="8" class="l"><a class="l" href="#8"> 8: </a><span class="php-comment"> * Description of MvcException
-</span></span><span id="9" class="l"><a class="l" href="#9"> 9: </a><span class="php-comment"> *
-</span></span><span id="10" class="l"><a class="l" href="#10">10: </a><span class="php-comment"> * @author dan
-</span></span><span id="11" class="l"><a class="l" href="#11">11: </a><span class="php-comment"> */</span>
-</span><span id="12" class="l"><a class="l" href="#12">12: </a><span class="php-keyword1">class</span> <a id="MvcException" href="#MvcException">MvcException</a> <span class="php-keyword1">extends</span> Exception {
-</span><span id="13" class="l"><a class="l" href="#13">13: </a>
-</span><span id="14" class="l"><a class="l" href="#14">14: </a>    <span class="php-keyword1">const</span> <a id="ERROR_CODE_NO_ROUTE" href="#ERROR_CODE_NO_ROUTE">ERROR_CODE_NO_ROUTE</a> = <span class="php-num">404</span>;
-</span><span id="15" class="l"><a class="l" href="#15">15: </a>    <span class="php-keyword1">const</span> <a id="ERROR_CODE_UNAUTHORIZED" href="#ERROR_CODE_UNAUTHORIZED">ERROR_CODE_UNAUTHORIZED</a> = <span class="php-num">401</span>;
-</span><span id="16" class="l"><a class="l" href="#16">16: </a>    
-</span><span id="17" class="l"><a class="l" href="#17">17: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="___construct" href="#___construct">__construct</a>(<span class="php-var">$message</span> = <span class="php-quote">&quot;&quot;</span>, <span class="php-var">$code</span> = <span class="php-num">0</span>, <span class="php-var">$previous</span> = <span class="php-keyword1">null</span>) {
-</span><span id="18" class="l"><a class="l" href="#18">18: </a>        parent::__construct(<span class="php-var">$message</span>, <span class="php-var">$code</span>, <span class="php-var">$previous</span>);
-</span><span id="19" class="l"><a class="l" href="#19">19: </a>    }
-</span><span id="20" class="l"><a class="l" href="#20">20: </a>    
+</span><span id="5" class="l"><a class="l" href="#5"> 5: </a><span class="php-comment">/**
+</span></span><span id="6" class="l"><a class="l" href="#6"> 6: </a><span class="php-comment"> * Description of Filter
+</span></span><span id="7" class="l"><a class="l" href="#7"> 7: </a><span class="php-comment"> *
+</span></span><span id="8" class="l"><a class="l" href="#8"> 8: </a><span class="php-comment"> * @author dan
+</span></span><span id="9" class="l"><a class="l" href="#9"> 9: </a><span class="php-comment"> */</span>
+</span><span id="10" class="l"><a class="l" href="#10">10: </a><span class="php-keyword1">abstract</span> <span class="php-keyword1">class</span> <a id="Filter" href="#Filter">Filter</a> {
+</span><span id="11" class="l"><a class="l" href="#11">11: </a>
+</span><span id="12" class="l"><a class="l" href="#12">12: </a>    <span class="php-keyword1">protected</span> <span class="php-var"><a id="$app" href="#$app">$app</a></span>;
+</span><span id="13" class="l"><a class="l" href="#13">13: </a>    <span class="php-keyword1">protected</span> <span class="php-var"><a id="$session" href="#$session">$session</a></span>;
+</span><span id="14" class="l"><a class="l" href="#14">14: </a>    <span class="php-keyword1">protected</span> <span class="php-var"><a id="$input" href="#$input">$input</a></span>;
+</span><span id="15" class="l"><a class="l" href="#15">15: </a>
+</span><span id="16" class="l"><a class="l" href="#16">16: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="___construct" href="#___construct">__construct</a>(Application <span class="php-var">$app</span>) {
+</span><span id="17" class="l"><a class="l" href="#17">17: </a>        <span class="php-var">$this</span>-&gt;app = <span class="php-var">$app</span>;
+</span><span id="18" class="l"><a class="l" href="#18">18: </a>        <span class="php-var">$this</span>-&gt;session = Session::getInstance();
+</span><span id="19" class="l"><a class="l" href="#19">19: </a>        <span class="php-var">$this</span>-&gt;input = Input::getInstance();
+</span><span id="20" class="l"><a class="l" href="#20">20: </a>    }
 </span><span id="21" class="l"><a class="l" href="#21">21: </a>
-</span><span id="22" class="l"><a class="l" href="#22">22: </a>}
-</span><span id="23" class="l"><a class="l" href="#23">23: </a></span></code></pre>
+</span><span id="22" class="l"><a class="l" href="#22">22: </a>    <span class="php-keyword1">abstract</span> <span class="php-keyword1">function</span> <a id="_preFilter" href="#_preFilter">preFilter</a>();
+</span><span id="23" class="l"><a class="l" href="#23">23: </a>
+</span><span id="24" class="l"><a class="l" href="#24">24: </a>    <span class="php-keyword1">abstract</span> <span class="php-keyword1">function</span> <a id="_postFilter" href="#_postFilter">postFilter</a>();
+</span><span id="25" class="l"><a class="l" href="#25">25: </a>}
+</span><span id="26" class="l"><a class="l" href="#26">26: </a></span></code></pre>
 
 	<div id="footer">
 		danmvc API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
