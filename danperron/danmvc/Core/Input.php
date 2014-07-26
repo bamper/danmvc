@@ -24,11 +24,19 @@ class Input {
     }
 
     public function getPostField($key) {
-        return filter_input(INPUT_POST, $key, FILTER_NULL_ON_FAILURE);
+        if(isset($_POST[$key])){
+            return $_POST[$key];
+        } else {
+            return null;
+        }
     }
 
     public function getQueryParam($key) {
-        return filter_input(INPUT_GET, $key, FILTER_NULL_ON_FAILURE);
+        if(isset($_GET[$key])){
+            return $_GET[$key];
+        } else {
+            return null;
+        }
     }
 
     public function getRawInputData() {
