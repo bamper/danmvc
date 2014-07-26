@@ -24,7 +24,7 @@ class Input {
     }
 
     public function getPostField($key) {
-        if(isset($_POST[$key])){
+        if (isset($_POST[$key])) {
             return $_POST[$key];
         } else {
             return null;
@@ -32,7 +32,7 @@ class Input {
     }
 
     public function getQueryParam($key) {
-        if(isset($_GET[$key])){
+        if (isset($_GET[$key])) {
             return $_GET[$key];
         } else {
             return null;
