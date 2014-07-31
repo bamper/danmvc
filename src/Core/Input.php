@@ -15,7 +15,7 @@ class Input {
     private function __construct() {
         
     }
-
+    
     public static function getInstance() {
         if (self::$instance == null) {
             self::$instance = new Input();
@@ -23,6 +23,12 @@ class Input {
         return self::$instance;
     }
 
+    /**
+     * Fetch a value of a post form field.  If key does not exist, returns null.
+     * 
+     * @param string $key
+     * @return string
+     */
     public function getPostField($key) {
         if (isset($_POST[$key])) {
             return $_POST[$key];
@@ -31,6 +37,12 @@ class Input {
         }
     }
 
+    /**
+     * retrieve url query parameter.  Returns null if doesn't exist.
+     * 
+     * @param string $key
+     * @return string
+     */
     public function getQueryParam($key) {
         if (isset($_GET[$key])) {
             return $_GET[$key];
@@ -39,6 +51,11 @@ class Input {
         }
     }
 
+    /**
+     * return raw request body.
+     * 
+     * @return type
+     */
     public function getRawInputData() {
         if ($this->rawPostData === null) {
             $this->rawPostData = file_get_contents('php://input');
